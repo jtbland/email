@@ -1,0 +1,65 @@
+[
+{
+    "id": 3,
+    "message_count": 1,
+    "unread": true,
+    "participants": [
+      {
+        "first_name": "Mom",
+        "last_name": "",
+        "email": "julie.johns@gmail.com",
+        "unread": true
+      }
+    ],
+    "last_message": {
+      "subject": "I won the International Lottery!!",
+      "snippet": "I got an email saying I won! Can you believe it??",
+      "created_at": 1409366556530
+    }
+  },
+  {
+    "id": 2,
+    "message_count": 3,
+    "unread": true,
+    "participants": [
+      {
+        "first_name": "Ricky",
+        "last_name": "LaRosa",
+        "email": "rick.larosa@gmail.com",
+        "unread": true
+      },
+      {
+        "first_name": "Jeff",
+        "last_Name": "Bland",
+        "email": "blandt.jeff@gmail.com"
+      }
+    ],
+    "last_message": {
+      "subject": "RE: Tickets!!",
+      "snippet": "Heck yeah man! I've been killin the ball down the fairway lately.",
+      "created_at": 1409068800000
+    }
+  },
+  {
+    "id": 1,
+    "message_count": 2,
+    "unread": false,
+    "participants": [
+      {
+        "first_name": "Nicole",
+        "last_name": "Bland",
+        "email": "nicole.bland@gmail.com"
+      },
+      {
+        "first_name": "Jeff",
+        "last_Name": "Bland",
+        "email": "blandt.jeff@gmail.com"
+      }
+    ],
+    "last_message": {
+      "subject": "RE: Shopping List",
+      "snippet": "Blueberries, Milk, Eggs, Strawberries, Diapers.",
+      "created_at": 1409068800000
+    }
+  }
+]

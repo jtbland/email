@@ -1,0 +1,39 @@
+{
+  "id": 1,
+  "messages": [{
+    "id": 1,
+    "from": {
+      "first_name": "Nicole",
+      "last_name": "Bland",
+      "email": "nicole.bland@gmail.com",
+    },
+    "to": [{
+      "first_name": "Jeff",
+      "last_Name": "Bland",
+      "email": "blandt.jeff@gmail.com"
+    }],
+    "unread": false,
+    "subject": "Shopping List",
+    "snippet": "Blueberries, Milk, Eggs, Strawberries, Diapers.",
+    "body": "<p>Blueberries, Milk, Eggs, Strawberries, Diapers.</p>",
+    "created_at": 1409068800000
+  },{
+    "id": 2,
+    "from": {
+      "first_name": "Jeff",
+      "last_Name": "Bland",
+      "email": "blandt.jeff@gmail.com",
+
+    },
+    "to": [{
+      "first_name": "Nicole",
+      "last_name": "Bland",
+      "email": "nicole.bland@gmail.com"
+    }],
+    "unread": false,
+    "subject": "RE: Utility Bill",
+    "snippet": "Pay this today, its due.",
+    "body": "<p>Pay this today, its due.</p>",
+    "created_at": 1409068800000
+  }]
+}

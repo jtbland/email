@@ -1,0 +1,21 @@
+{
+  "id": 3,
+  "messages": [{
+    "id": 6,
+    "from": {
+      "first_name": "Mom",
+      "last_name": "",
+      "email": "julie.johns@gmail.com",
+    },
+    "to": [{
+      "first_name": "Jeff",
+      "last_Name": "Bland",
+      "email": "blandt.jeff@gmail.com"
+    }],
+    "unread": true,
+    "subject": "I won the International Lottery!!",
+    "snippet": "I got an email saying I won! Can you believe it??",
+    "body": "<p>I got an email saying I won! Can you believe it??</p>",
+    "created_at": 1409366556530
+  }]
+}
