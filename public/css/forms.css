@@ -1,0 +1,33 @@
+input, textarea {
+  font: inherit;
+  border: none;
+  margin: 0;
+  padding: 0;
+  color: #333; }
+  input:focus, textarea:focus {
+    outline: none; }
+  input.full, textarea.full {
+    width: 100%; }
+
+textarea {
+  width: 100%;
+  height: 175px; }
+
+label {
+  color: #777; }
+
+::-webkit-input-placeholder {
+  font: inherit;
+  color: #555; }
+
+::-moz-placeholder {
+  font: inherit;
+  color: #555; }
+
+:-ms-input-placeholder {
+  font: inherit;
+  color: #555; }
+
+::placeholder {
+  font: inherit;
+  color: #555; }

@@ -38,4 +38,7 @@ app.filter 'smartName', ->
 
 app.filter 'nameAndEmail', ->
   (person)->
-    "#{ person.first_name } #{ person.last_name } <#{ person.email }>"
+    if person
+      "#{ person.first_name } #{ person.last_name } <#{ person.email }>"
+    else
+      ""  

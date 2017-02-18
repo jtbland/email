@@ -118,6 +118,10 @@ li {
     vertical-align: middle;
     opacity: .5;
   }
+
+  &.drop-down {
+    padding: 2px 20px;
+  }
 }
 .btn {
   cursor: pointer;

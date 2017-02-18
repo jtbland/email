@@ -3,30 +3,30 @@
     "id": 2,
     "email": "blandt.jeff@gmail.com",
     "first_name": "Jeff",
-    "last_name": "Bland",
+    "last_name": "Bland"
   },
   {
     "id": 3,
     "email": "luckygunsak@gmail.com",
     "first_name": "Jeff",
-    "last_name": "Bland",
+    "last_name": "Bland"
   },
   {
     "id": 4,
     "email": "nicole.bland@gmail.com",
     "first_name": "Nicole",
-    "last_name": "Bland",
+    "last_name": "Bland"
   },
   {
     "id": 5,
     "email": "rick.larosa@gmail.com",
     "first_name": "Ricky",
-    "last_name": "LaRosa",
+    "last_name": "LaRosa"
   },
   {
     "id": 6,
     "email": "julie.johns@gmail.com",
     "first_name": "Mom",
-    "last_name": "",
+    "last_name": ""
   }
 ]

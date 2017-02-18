@@ -5,8 +5,7 @@
     "from": {
       "first_name": "Ricky",
       "last_name": "LaRosa",
-      "email": "rick.larosa@gmail.com",
-
+      "email": "rick.larosa@gmail.com"
     },
     "to": [{
       "first_name": "Jeff",
@@ -23,12 +22,11 @@
     "from": {
       "first_name": "Jeff",
       "last_Name": "Bland",
-      "email": "blandt.jeff@gmail.com",
-
+      "email": "blandt.jeff@gmail.com"
     },
     "to": [{
       "first_name": "Ricky",
-      "last_name": "LaRosa"
+      "last_name": "LaRosa",
       "email": "rick.larosa@gmail.com"
     }],
     "unread": false,
@@ -41,7 +39,7 @@
     "from": {
       "first_name": "Ricky",
       "last_name": "LaRosa",
-      "email": "rick.larosa@gmail.com",
+      "email": "rick.larosa@gmail.com"
     },
     "to": [{
       "first_name": "Jeff",

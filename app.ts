@@ -7,7 +7,7 @@ import * as bodyParser from 'body-parser';
 import * as ejs from 'ejs';
 
 import routes from './routes/index';
-import users from './routes/users';
+import mail from './routes/mail';
 
 let app = express();
 
@@ -23,11 +23,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bower_components', express.static(path.join(__dirname, 'bower_components')));
-app.use('/ngApp', express.static(path.join(__dirname, 'ngApp')));
 app.use('/api', express.static(path.join(__dirname, 'api')));
-
 app.use('/', routes);
-app.use('/users', users);
+app.use('/mail', mail);
 
 
 // redirect 404 to home for the sake of AngularJS client-side routes

@@ -1,16 +1,18 @@
-app.controller 'ThreadsController', ($scope, $http)->
-  $scope.threads = []
-  $http.get('/api/threads/index.json').success (data)->
-    $scope.threads = data
+app.controller 'ThreadController', ($scope, $http, $routeParams)->
+  $scope.thread = {}
+  $http.get("/api/threads/#{ $routeParams.id }.json").success (data)->
+    $scope.thread = data
 
-app.controller 'ThreadsController', ($rootScope, $scope, Thread, $location)->
+
+app.controller 'ThreadsController', ($rootScope, $scope, $location, Thread)->
   $scope.threads = []
+  
   Thread.query (threads)->
-    $scope.threads = threads
-    $scope.page =
-      from: 1
-      to: threads.length
-      count: threads.length
+      $scope.threads = threads
+      $scope.page =
+        from: 1
+        to: threads.length
+        count: threads.length
 
   $scope.isRouteActive = (route)->
     route == $location.path()
@@ -56,7 +58,18 @@ app.controller 'ThreadsController', ($rootScope, $scope, Thread, $location)->
       $scope.selectAll()
 
   $scope.composeMessage = ->
-    $rootScope.$broadcast 'composeMessage'
+    $scope.visible = true
+
+app.controller 'ThreadController', ($scope, $routeParams, $http)->
+
+  $http.get("/api/threads/#{ $routeParams.id }.json").success (data)->
+    $scope.thread = data
+    $scope.lastMessage = thread.messages[thread.messages.length-1]
+    $scope.lastMessage.active = true
+
+  $scope.toggleActive = (message)->
+    unless message == $scope.lastMessage
+      message.active = !message.active
 
 app.controller 'ThreadController', ($scope, $routeParams, Thread)->
   $scope.thread = {}
@@ -69,31 +82,33 @@ app.controller 'ThreadController', ($scope, $routeParams, Thread)->
     unless message == $scope.lastMessage
       message.active = !message.active
 
-app.controller 'ComposeController', ($rootScope, $scope, $timeout, Flash)->
+app.controller 'ComposeController', ($scope, $routeParams, $http)->
+  $scope.message = {
+    to: '',
+    bcc: '',
+    cc: '',
+    body: '',
+    subject: ''
+  }
 
-  $scope.close = ->
-    $scope.visible = false
-    $scope.cc_active = false
-    $scope.bcc_active = false
-    $scope.active_section = null
-    $scope.message =
-      from: currentUser.accounts[0]
+  $scope.clearMessage = ()->
+    $scope.message.to = ''
+    $scope.message.bcc = ''
+    $scope.message.cc = ''
+    $scope.message.body = ''
+    $scope.message.subject = ''
 
-  $scope.close()
+  $scope.close = ()->
+    $scope.clearMessage()
+    $scope.$parent.visible = false
 
-  $rootScope.$on 'composeMessage', ->
-    $scope.visible = true
-    $scope.active_section = 'to'
-    $scope.message =
-      from: currentUser.accounts[0]
-
-  $scope.send = ->
-    $scope.close()
-
-    Flash.message = 'Sending...'
-    $timeout ->
-      Flash.message = ''
-    , 1000
+  $scope.send = ()->
+    $http.post('/api/send', $scope.message).then ((result) ->
+      $scope.close()
+      return
+    ), (err) ->
+      console.log err
+      return
 
 app.controller 'FlashController',  ($scope, Flash)->
   $scope.flash = Flash
