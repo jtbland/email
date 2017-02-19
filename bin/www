@@ -7,6 +7,10 @@
 var app = require('../app');
 var debug = require('debug')('myapp:server');
 var http = require('http');
+var mongoose = require('mongoose');
+var Author = require('../models/author').default;
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://localhost/email');
 
 /**
  * Get port from environment and store in Express.
@@ -25,7 +29,18 @@ var server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+ var db = mongoose.connection;
+ db.on('error', console.error.bind(console, 'connection error:'));
+ db.once('open', function() {
+   server.listen(port);
+
+   // seed some data
+   var user1 = new Author({first_name: "Jeff", last_name: "Bland", email: "jeff@test.com"});
+   user1.save();
+   var user2 = new Author({first_name: "Nicole", last_name: "Bland", email: "nicole@test.com"});
+   user2.save();
+ });
+
 server.on('error', onError);
 server.on('listening', onListening);
 

@@ -3,11 +3,11 @@
   <ul class="messages">
     <li ng-repeat="message in thread.messages" ng-class="{ active : message.active }" ng-click="toggleActive(message)">
       <div class="thread-tools">
-        <time>{{ message.created_at | smartDate }} ({{ message.created_at | timeAgo }})</time>
+        <time>{{ message.created_at | smartDate }} ({{ message.created_at_ms | timeAgo }})</time>
         <div class="split-btn" ng-show="message.active">
-          <a href class="btn"><img src="images/icons/reply.png"></a>
+          <a href class="btn"><img src="/images/icons/reply.png"></a>
           <drop-down class="drop-down btn btn-mini">
-            <img src="images/icons/down.png">
+            <img src="/images/icons/down.png">
             <ul class="align-right">
               <li><a href>Reply</a></li>
               <li><a href>Reply all</a></li>
@@ -18,11 +18,11 @@
       </div>
       <img class="">
       <div class="from">
-        <span class="name">{{ message.from.first_name }} {{ message.from.last_name }}</span>
-        <span class="email" ng-show="message.active">&lt;{{ message.from.email }}&gt;</span>
+        <span class="name">{{ message.author.first_name }} {{ message.author.last_name }}</span>
+        <span class="email" ng-show="message.active">&lt;{{ message.author.email }}&gt;</span>
       </div>
       <div class="to" ng-show="message.active">to
-        <span ng-repeat="person in message.to">{{ person | smartName : false }}{{ $last ? '': ', ' }}</span>
+        <span>{{ message.recipient | smartName : false }}{{ $last ? '': ', ' }}</span>
       </div>
       <div class="body" ng-bind-html="message.active ? message.body : message.snippet"></div>
     </li>
