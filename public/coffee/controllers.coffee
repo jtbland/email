@@ -1,12 +1,12 @@
 app.controller 'ThreadController', ($scope, $http, $routeParams)->
   $scope.thread = {}
-  $http.get("/api/threads/#{ $routeParams.id }.json").success (data)->
+  $http.get("/mail/thread/#{ $routeParams.id }").success (data)->
     $scope.thread = data
 
 
 app.controller 'ThreadsController', ($rootScope, $scope, $location, Thread)->
   $scope.threads = []
-  
+
   Thread.query (threads)->
       $scope.threads = threads
       $scope.page =
@@ -84,17 +84,18 @@ app.controller 'ThreadController', ($scope, $routeParams, Thread)->
 
 app.controller 'ComposeController', ($scope, $routeParams, $http)->
   $scope.message = {
-    to: '',
-    bcc: '',
-    cc: '',
+    to: { email: ''},
+    bcc: { email: ''},
+    cc: { email: ''},
+    from: { email: 'jeff@test.com'}, # TODO this is hardcoded for now
     body: '',
     subject: ''
   }
 
   $scope.clearMessage = ()->
-    $scope.message.to = ''
-    $scope.message.bcc = ''
-    $scope.message.cc = ''
+    $scope.message.to = { email: ''}
+    $scope.message.bcc = { email: ''}
+    $scope.message.cc = { email: ''}
     $scope.message.body = ''
     $scope.message.subject = ''
 
@@ -103,7 +104,7 @@ app.controller 'ComposeController', ($scope, $routeParams, $http)->
     $scope.$parent.visible = false
 
   $scope.send = ()->
-    $http.post('/api/send', $scope.message).then ((result) ->
+    $http.post('/mail/send', $scope.message).then ((result) ->
       $scope.close()
       return
     ), (err) ->

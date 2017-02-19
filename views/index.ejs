@@ -11,24 +11,7 @@
 <body>
     <div id="wrapper" ng-controller="ThreadsController">
         <div id="header">
-            <span id="logo"><img src="images/logo.png"></span>
-            <div class="drop-down account-nav">
-                <img class="" src="">
-                <ul class="align-right">
-                    <li><a href>Jeff Bland &lt;blandt.jeff@gmail.com&gt;</a>
-                    </li>
-                    <li><a href>Jeff Bland &lt;luckygunsak@gmail.com&gt;</a>
-                    </li>
-                    <li><a href>Jeff Bland &lt;herestoyou@gmail.com&gt;</a>
-                    </li>
-                    <drop-down class="drop-down account-nav">
-                        <img class="">
-                        <ul class="align-right">
-                            <li ng-repeat="account in current_user.accounts"><a href>{{ account | nameAndEmail }}</a>
-                            </li>
-                        </ul>
-                    </drop-down>
-            </div>
+            <span id="logo"><img src="/images/logo.png"></span>
             <form class="search">
                 <input name="query" ng-model="query">
                 <button type="submit" class="primary-btn">
@@ -42,17 +25,17 @@
                 <a href class="check"></a>
                 <strong>{{ page.count }}</strong>
                 <div class="split-btn">
-                    <a href class="btn btn-mini" title="Previous" ng-class="{ inactive: page.from == 1 }"><img src="images/icons/prev.png">
+                    <a href class="btn btn-mini" title="Previous" ng-class="{ inactive: page.from == 1 }"><img src="/images/icons/prev.png">
                     </a>
-                    <a href class="btn btn-mini" title="Next" ng-class="{ inactive: page.to == page.count }"><img src="images/icons/next.png">
+                    <a href class="btn btn-mini" title="Next" ng-class="{ inactive: page.to == page.count }"><img src="/images/icons/next.png">
                     </a>
                 </div>
             </div>
-            <a href="/inbox" class="btn" title="Back to Inbox" ng-hide="isRouteActive('/inbox')"><img src="images/icons/back.png">
+            <a href="/inbox" class="btn" title="Back to Inbox" ng-hide="isRouteActive('/inbox')"><img src="/images/icons/back.png">
             </a>
             <drop-down class="drop-down btn" ng-show="isRouteActive('/inbox')">
                 <a href class="check" ng-click="selectToggle()" ng-class="{ 'all-selected': allSelected(), 'some-selected': someSelected() }" stop-event></a>
-                <img src="images/icons/down.png">
+                <img src="/images/icons/down.png">
                 <ul>
                     <li><a href ng-click="selectAll()">All</a>
                     </li>
@@ -63,28 +46,31 @@
                     <li><a href ng-click="selectUnread()">Unread</a>
                     </li>
                 </ul>
-              </drop-down>
-              <div class="split-btn" ng-show="someSelected() || !isRouteActive('/inbox')">
-                  <a href class="btn" title="Archive"><img src="images/icons/archive.png">
-                  </a>
-                  <a href class="btn" title="Report Spam"><img src="images/icons/spam.png">
-                  </a>
-                  <a href class="btn" title="Delete"><img src="images/icons/delete.png">
-                  </a>
-              </div>
-              <a href class="btn" ng-show="isRouteActive('/inbox') && noneSelected()"><img src="images/icons/refresh.png">
-              </a>
+            </drop-down>
+            <div class="split-btn" ng-show="someSelected() || !isRouteActive('/inbox')">
+                <a href class="btn" title="Archive"><img src="/images/icons/archive.png">
+                </a>
+                <a href class="btn" title="Report Spam"><img src="/images/icons/spam.png">
+                </a>
+                <a href class="btn" title="Delete"><img src="/images/icons/delete.png">
+                </a>
+            </div>
+            <a href class="btn" ng-show="isRouteActive('/inbox') && noneSelected()"><img src="/images/icons/refresh.png">
+            </a>
         </div>
         <div id="nav">
             <a href class="compose" ng-click="composeMessage()">COMPOSE</a>
             <ul>
                 <li class="active"><a href>Inbox</a>
                 </li>
-                <li><a href>Sent Mail</a>
+                <li>
+                    <a href>Sent Mail</a>
                 </li>
-                <li><a href>Drafts</a>
+                <li>
+                    <a href>Drafts</a>
                 </li>
-                <li><a href>Trash</a>
+                <li>
+                    <a ng-click="deleteSelected()" href>Trash</a>
                 </li>
             </ul>
         </div>
@@ -96,25 +82,25 @@
             </div>
             <div>
                 <div ng-hide="active_section == 'to'">
-                    <input placeholder="Recipients" name="recipients" class="full" ng-focus="active_section = 'to'" ng-model="message.to">
+                    <input placeholder="Recipients" name="recipients" class="full" ng-focus="active_section = 'to'" ng-model="message.to.email">
                 </div>
                 <div ng-show="active_section == 'to'">
                     <div class="input" ng-show="active_section == 'to'">
                         <label for="message_to">To</label>
                         <div class="fit">
-                            <input id="message_to" class="full" ng-model="message.to">
+                            <input id="message_to" class="full" ng-model="message.to.email">
                         </div>
                     </div>
                     <div class="input" ng-show="cc_active">
                         <label for="message_cc">Cc</label>
                         <div class="fit">
-                            <input id="message_cc" class="full" ng-model="message.cc">
+                            <input id="message_cc" class="full" ng-model="message.cc.email">
                         </div>
                     </div>
                     <div class="input" ng-show="bcc_active">
                         <label for="message_bcc">Bcc</label>
                         <div class="fit">
-                            <input for="message_bcc" class="full" ng-model="message.bcc">
+                            <input for="message_bcc" class="full" ng-model="message.bcc.email">
                         </div>
                     </div>
                     <div>
@@ -122,10 +108,10 @@
                         <a href class="bcc" ng-click="bcc_active = true" ng-hide="bcc_active">Bcc</a>
                         <a href class="cc" ng-click="cc_active = true" ng-hide="cc_active">Cc</a>
                         <drop-down class="drop-down from-address">
-                            <span>Jeff Bland &lt;blandt.jeff@gmail.com&gt;</span>
-                            <img src="images/icons/down.png">
+                            <span>Jeff Bland &lt;jeff@test.com&gt;</span>
+                            <img src="/images/icons/down.png">
                             <ul class="align-right">
-                                <li ng-repeat="account in current_user.accounts"><a href ng-click="message.from = account">{{ account | nameAndEmail }}</a>
+                                <li ng-repeat="account in current_user.accounts"><a href ng-click="message.from.email = account">{{ account | nameAndEmail }}</a>
                                 </li>
                             </ul>
                         </drop-down>
@@ -148,24 +134,14 @@
     </div>
     <script>
         window.currentUser = {
-            email: 'blandt.jeff@gmail.com',
+            email: 'jeff@test.com',
             first_name: 'Jeff',
             last_name: 'bland',
             accounts: [{
                 id: 1,
-                email: "blandt.jeff@gmail.com",
+                email: "jeff@test.com",
                 first_name: "Jeff",
-                last_name: "blandt",
-            }, {
-                id: 2,
-                email: "luckygunsak@gmail.com",
-                first_name: "Jeff",
-                last_name: "Bland",
-            }, {
-                id: 3,
-                email: "herestoyou@gmail.com",
-                first_name: "Jeff",
-                last_name: "Bland",
+                last_name: "bland",
             }]
         }
     </script>
@@ -180,4 +156,5 @@
     <script src="/js/filters.js"></script>
     <script src="/js/services.js"></script>
 </body>
+
 </html>
