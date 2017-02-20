@@ -52,7 +52,7 @@
                 </a>
                 <a href class="btn" title="Report Spam"><img src="/images/icons/spam.png">
                 </a>
-                <a href class="btn" title="Delete"><img src="/images/icons/delete.png">
+                <a href class="btn" ng-click="deleteSelected()" title="Delete"><img src="/images/icons/delete.png">
                 </a>
             </div>
             <a href class="btn" ng-show="isRouteActive('/inbox') && noneSelected()"><img src="/images/icons/refresh.png">
@@ -70,7 +70,7 @@
                     <a href>Drafts</a>
                 </li>
                 <li>
-                    <a ng-click="deleteSelected()" href>Trash</a>
+                    <a  href>Trash</a>
                 </li>
             </ul>
         </div>
@@ -109,11 +109,6 @@
                         <a href class="cc" ng-click="cc_active = true" ng-hide="cc_active">Cc</a>
                         <drop-down class="drop-down from-address">
                             <span>Jeff Bland &lt;jeff@test.com&gt;</span>
-                            <img src="/images/icons/down.png">
-                            <ul class="align-right">
-                                <li ng-repeat="account in current_user.accounts"><a href ng-click="message.from.email = account">{{ account | nameAndEmail }}</a>
-                                </li>
-                            </ul>
                         </drop-down>
                     </div>
                 </div>

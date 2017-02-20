@@ -1,13 +1,11 @@
 import * as mongoose from 'mongoose';
 
 interface IThread extends mongoose.Document {
-    unread: boolean;
     participants: Array<string>;
     messages: Array<string>;
 };
 
 const threadSchema = new mongoose.Schema({
-    unread: Boolean,
     messages: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Message' }],
     participants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Author' }]
 });
@@ -18,6 +16,11 @@ threadSchema.virtual('updated_at').get(function() {
     }
     return 0;
 });
+
+threadSchema.virtual('unread').get(function() {
+    return this.messages.some((m) => m.unread);
+});
+
 
 threadSchema.virtual('messages_count').get(function() {
     return this.messages.length;

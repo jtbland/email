@@ -66,6 +66,12 @@ router.delete('/thread/:id', async function(req, res, next) {
     res.send(200);
 });
 
+/* PUT Message */
+router.put('/message/:id',async function(req, res, next) {
+    await Message.findByIdAndUpdate(req.params.id, req.body);
+    res.send(200);
+});
+
 /* SEND Messages */
 router.post('/send', async function(req, res, next) {
     const messageToSend = req.body;
@@ -86,7 +92,7 @@ router.post('/send', async function(req, res, next) {
     }
 
     const message = new Message({
-        unread: false,
+        unread: true,
         subject: messageToSend.subject,
         body: messageToSend.body,
         snippet: messageToSend.body.substring(0, 50),

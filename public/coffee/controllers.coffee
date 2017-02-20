@@ -4,15 +4,23 @@ app.controller 'ThreadController', ($scope, $http, $routeParams)->
     $scope.thread = data
 
 
-app.controller 'ThreadsController', ($rootScope, $scope, $location, Thread)->
+app.controller 'ThreadsController', ($rootScope, $scope, $location, Thread, $http)->
   $scope.threads = []
 
-  Thread.query (threads)->
-      $scope.threads = threads
-      $scope.page =
-        from: 1
-        to: threads.length
-        count: threads.length
+  $scope.getThreads = ()->
+    Thread.query (threads)->
+        $scope.threads = threads
+        $scope.page =
+          from: 1
+          to: threads.length
+          count: threads.length
+
+  $scope.deleteSelected = ()->
+    for thread in $scope.threads
+      if thread.selected
+        $http.delete("/mail/thread/#{ thread.id }").then ()->
+          $scope.threads = $scope.threads.filter (_thread)->
+            _thread != thread
 
   $scope.isRouteActive = (route)->
     route == $location.path()
@@ -59,29 +67,43 @@ app.controller 'ThreadsController', ($rootScope, $scope, $location, Thread)->
 
   $scope.composeMessage = ->
     $scope.visible = true
+  #fetch the threads
+  $scope.getThreads()
 
-app.controller 'ThreadController', ($scope, $routeParams, $http)->
-
-  $http.get("/api/threads/#{ $routeParams.id }.json").success (data)->
-    $scope.thread = data
-    $scope.lastMessage = thread.messages[thread.messages.length-1]
-    $scope.lastMessage.active = true
-
-  $scope.toggleActive = (message)->
-    unless message == $scope.lastMessage
-      message.active = !message.active
-
-app.controller 'ThreadController', ($scope, $routeParams, Thread)->
+app.controller 'ThreadController', ($scope, $routeParams, Thread, $http)->
   $scope.thread = {}
-  Thread.get { id: $routeParams.id }, (thread)->
-    $scope.thread = thread
-    $scope.lastMessage = thread.messages[thread.messages.length-1]
-    $scope.lastMessage.active = true
-
+  $scope.markThreadRead = ()->
+      for message in $scope.thread.messages
+        message.unread = false
+        $http.put("/mail/message/#{ message.id }", {unread: false})
+      $scope.thread.unread = false
+  $scope.getThread = ()->
+    Thread.get { id: $routeParams.id }, (thread)->
+      $scope.thread = thread
+      $scope.lastMessage = thread.messages[thread.messages.length-1]
+      $scope.lastMessage.active = true
+      $scope.markThreadRead()
+  $scope.sendReply = ()->
+    message = {
+      subject: "RE:#{$scope.lastMessage.subject}",
+      body: $scope.reply,
+      to: {
+        email: $scope.lastMessage.author.email
+      },
+      from: {
+        email: $scope.lastMessage.recipient.email
+      },
+      threadId: $scope.thread.id
+    }
+    $http.post('/mail/send',message).then (result) ->
+      $scope.replying = false
+      $scope.reply = ''
+      $scope.getThread();
   $scope.toggleActive = (message)->
     unless message == $scope.lastMessage
       message.active = !message.active
 
+  $scope.getThread()
 app.controller 'ComposeController', ($scope, $routeParams, $http)->
   $scope.message = {
     to: { email: ''},
@@ -102,6 +124,7 @@ app.controller 'ComposeController', ($scope, $routeParams, $http)->
   $scope.close = ()->
     $scope.clearMessage()
     $scope.$parent.visible = false
+    $scope.$parent.getThreads();
 
   $scope.send = ()->
     $http.post('/mail/send', $scope.message).then ((result) ->

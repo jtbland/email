@@ -10,7 +10,7 @@ var http = require('http');
 var mongoose = require('mongoose');
 var Author = require('../models/author').default;
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/email');
+mongoose.connect('mongodb://jtbland:1234@ds157549.mlab.com:57549/jeffemail');
 
 /**
  * Get port from environment and store in Express.
