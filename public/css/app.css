@@ -34,7 +34,9 @@ label {
 
 html, body {
   margin: 0;
-  padding: 0; }
+  padding: 0;
+  height: 100%;
+  width: 100%; }
 
 body {
   font: 13px/1.2 sans-serif;
@@ -477,3 +479,42 @@ li {
   #compose .footer {
     overflow: hidden;
     background: #F5F5F5; }
+
+.login-wrapper {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+      justify-content: center;
+  -ms-flex-align: center;
+      align-items: center;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0; }
+  .login-wrapper form {
+    height: 400px;
+    width: 300px;
+    box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
+    padding: 12px;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+        justify-content: center;
+    -ms-flex-align: center;
+        align-items: center;
+    -ms-flex-direction: column;
+        flex-direction: column; }
+  .login-wrapper input {
+    display: block;
+    width: 100%;
+    height: 22px;
+    border: 1px solid #999;
+    border-radius: 3px;
+    margin-bottom: 12px; }
+  .login-wrapper button {
+    background-color: #4285f4;
+    color: white;
+    height: 30px;
+    width: 100%;
+    display: block; }

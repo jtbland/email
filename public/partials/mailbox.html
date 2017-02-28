@@ -1,0 +1,120 @@
+<div id="wrapper" ng-controller="ThreadsController">
+    <div id="header">
+        <span id="logo"><img src="/images/logo.png"></span>
+        <form class="search">
+            <input name="query" ng-model="query">
+            <button type="submit" class="primary-btn">
+                <span class="icon-search"></span>
+            </button>
+        </form>
+    </div>
+    <div id="sub-header">
+        <h1 class="app-name"><span>n</span>Gmail</h1>
+        <div class="drop-down btn">
+            <a href class="check"></a>
+            <strong>{{ page.count }}</strong>
+            <div class="split-btn">
+                <a href class="btn btn-mini" title="Previous" ng-class="{ inactive: page.from == 1 }"><img src="/images/icons/prev.png">
+                </a>
+                <a href class="btn btn-mini" title="Next" ng-class="{ inactive: page.to == page.count }"><img src="/images/icons/next.png">
+                </a>
+            </div>
+        </div>
+        <a href="/inbox" class="btn" title="Back to Inbox" ng-hide="isRouteActive('/inbox')"><img src="/images/icons/back.png">
+        </a>
+        <drop-down class="drop-down btn" ng-show="isRouteActive('/inbox')">
+            <a href class="check" ng-click="selectToggle()" ng-class="{ 'all-selected': allSelected(), 'some-selected': someSelected() }" stop-event></a>
+            <img src="/images/icons/down.png">
+            <ul>
+                <li><a href ng-click="selectAll()">All</a>
+                </li>
+                <li><a href ng-click="selectNone()">None</a>
+                </li>
+                <li><a href ng-click="selectRead()">Read</a>
+                </li>
+                <li><a href ng-click="selectUnread()">Unread</a>
+                </li>
+            </ul>
+        </drop-down>
+        <div class="split-btn" ng-show="someSelected() || !isRouteActive('/inbox')">
+            <a href class="btn" title="Archive"><img src="/images/icons/archive.png">
+            </a>
+            <a href class="btn" ng-click="markThreadSpam()" title="Report Spam"><img src="/images/icons/spam.png">
+            </a>
+            <a href class="btn" ng-click="deleteSelected()" title="Delete"><img src="/images/icons/delete.png">
+            </a>
+        </div>
+        <a href class="btn" ng-show="isRouteActive('/inbox') && noneSelected()"><img src="/images/icons/refresh.png">
+        </a>
+    </div>
+    <div id="nav">
+        <a href class="compose" ng-click="composeMessage()">COMPOSE</a>
+        <ul>
+            <li ng-class="{active: $state.current.name === 'mailbox.inbox'}"><a ui-sref="mailbox.inbox">Inbox</a>
+            </li>
+            <li>
+                <a href>Sent Mail</a>
+            </li>
+            <li>
+                <a href>Drafts</a>
+            </li>
+            <li>
+                <a href>Trash</a>
+            </li>
+            <li ng-class="{active: $state.current.name === 'mailbox.spam'}"><a ui-sref="mailbox.spam">Spam</a>
+            </li>
+        </ul>
+    </div>
+    <div id="content" ui-view></div>
+    <div id="compose" ng-controller="ComposeController" ng-show="visible">
+        <div class="header">
+            <a class="close" ng-click="close()">&times;</a>
+            <h2>New Message</h2>
+        </div>
+        <div>
+            <div ng-hide="active_section == 'to'">
+                <input placeholder="Recipients" name="recipients" class="full" ng-focus="active_section = 'to'" ng-model="message.to.email">
+            </div>
+            <div ng-show="active_section == 'to'">
+                <div class="input" ng-show="active_section == 'to'">
+                    <label for="message_to">To</label>
+                    <div class="fit">
+                        <input id="message_to" class="full" ng-model="message.to.email">
+                    </div>
+                </div>
+                <div class="input" ng-show="cc_active">
+                    <label for="message_cc">Cc</label>
+                    <div class="fit">
+                        <input id="message_cc" class="full" ng-model="message.cc.email">
+                    </div>
+                </div>
+                <div class="input" ng-show="bcc_active">
+                    <label for="message_bcc">Bcc</label>
+                    <div class="fit">
+                        <input for="message_bcc" class="full" ng-model="message.bcc.email">
+                    </div>
+                </div>
+                <div>
+                    <label>From</label>
+                    <a href class="bcc" ng-click="bcc_active = true" ng-hide="bcc_active">Bcc</a>
+                    <a href class="cc" ng-click="cc_active = true" ng-hide="cc_active">Cc</a>
+                    <drop-down class="drop-down from-address">
+                        <span>Jeff Bland &lt;jeff@test.com&gt;</span>
+                    </drop-down>
+                </div>
+            </div>
+        </div>
+        <div>
+            <input id="message_subject" class="full" placeholder="Subject" ng-model="message.subject">
+        </div>
+        <div>
+            <textarea id="message_body" placeholder="Body" ng-model="message.body"></textarea>
+        </div>
+        <div class="footer">
+            <input type="submit" class="btn primary-btn" value="Send" ng-click="send()">
+        </div>
+    </div>
+    <div class="flash" ng-controller="FlashController" ng-show="flash.message.length > 0">
+        <div class="inner">{{ flash.message }}</div>
+    </div>
+</div>

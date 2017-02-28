@@ -2,6 +2,7 @@ import * as mongoose from 'mongoose';
 
 interface IMessage extends mongoose.Document {
     unread: boolean;
+    isSpam: boolean,
     subject: string;
     body: string;
     snippet: string;
@@ -13,6 +14,7 @@ interface IMessage extends mongoose.Document {
 export const messageSchema = new mongoose.Schema({
     created_at: { type: Date, default: Date.now },
     unread: Boolean,
+    isSpam: Boolean,
     subject: String,
     body: String,
     snippet: String,

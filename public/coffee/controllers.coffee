@@ -1,12 +1,21 @@
-app.controller 'ThreadController', ($scope, $http, $routeParams)->
+app.controller 'LoginController', ($scope, AuthService, $state, $rootScope)->
+  $scope.login = ($event)->
+    $event.preventDefault()
+    AuthService.logIn($scope.username, $scope.password).then (data) ->
+      $rootScope.username = $scope.username
+      $rootScope.email = "#{$scope.username}@test.com"
+      localStorage.setItem('token', data.token)
+      $state.go('mailbox.inbox')
+
+app.controller 'ThreadController', ($scope, $http, $stateParams)->
   $scope.thread = {}
-  $http.get("/mail/thread/#{ $routeParams.id }").success (data)->
+  $http.get("/mail/thread/#{ $stateParams.id }").success (data)->
     $scope.thread = data
 
 
-app.controller 'ThreadsController', ($rootScope, $scope, $location, Thread, $http)->
+app.controller 'ThreadsController', ($rootScope, $scope, $location, Thread, $http, $state)->
   $scope.threads = []
-
+  $scope.$state = $state
   $scope.getThreads = ()->
     Thread.query (threads)->
         $scope.threads = threads
@@ -14,7 +23,22 @@ app.controller 'ThreadsController', ($rootScope, $scope, $location, Thread, $htt
           from: 1
           to: threads.length
           count: threads.length
-
+  $scope.markThreadSpam = ()->
+    for thread in $scope.threads
+      if thread.selected
+        if thread.isSpam
+          $scope.markThreadNotSpam(thread)
+        else
+          for message in thread.messages
+            message.isSpam = true
+            $http.put("/mail/message/#{ message.id }", {isSpam: true})
+          thread.isSpam = true
+  $scope.markThreadNotSpam = (thread)->
+    if thread.selected
+      for message in thread.messages
+        message.isSpam = false
+        $http.put("/mail/message/#{ message.id }", {isSpam: false})
+      thread.isSpam = false
   $scope.deleteSelected = ()->
     for thread in $scope.threads
       if thread.selected
@@ -70,7 +94,7 @@ app.controller 'ThreadsController', ($rootScope, $scope, $location, Thread, $htt
   #fetch the threads
   $scope.getThreads()
 
-app.controller 'ThreadController', ($scope, $routeParams, Thread, $http)->
+app.controller 'ThreadController', ($scope, $stateParams, Thread, $http)->
   $scope.thread = {}
   $scope.markThreadRead = ()->
       for message in $scope.thread.messages
@@ -78,7 +102,7 @@ app.controller 'ThreadController', ($scope, $routeParams, Thread, $http)->
         $http.put("/mail/message/#{ message.id }", {unread: false})
       $scope.thread.unread = false
   $scope.getThread = ()->
-    Thread.get { id: $routeParams.id }, (thread)->
+    Thread.get { id: $stateParams.id }, (thread)->
       $scope.thread = thread
       $scope.lastMessage = thread.messages[thread.messages.length-1]
       $scope.lastMessage.active = true
@@ -104,7 +128,7 @@ app.controller 'ThreadController', ($scope, $routeParams, Thread, $http)->
       message.active = !message.active
 
   $scope.getThread()
-app.controller 'ComposeController', ($scope, $routeParams, $http)->
+app.controller 'ComposeController', ($scope, $stateParams, $http)->
   $scope.message = {
     to: { email: ''},
     bcc: { email: ''},

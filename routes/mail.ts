@@ -2,11 +2,17 @@ import * as express from 'express';
 import Author from '../models/author';
 import Thread from '../models/thread';
 import Message from '../models/message';
+import * as jwt from 'express-jwt';
 
+let auth = jwt({
+  secret: "SecretKey",
+  userProperty: "payload"
+});
 let router = express.Router();
 
 /* GET Threads */
-router.get('/thread', function(req, res, next) {
+router.get('/thread', auth, function(req, res, next) {
+    const user = req.payload;
     Thread
         .find()
         .populate('participants')

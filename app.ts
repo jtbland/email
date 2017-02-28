@@ -5,11 +5,15 @@ import * as logger from 'morgan';
 import * as cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';
 import * as ejs from 'ejs';
-
+import passport = require("passport");
 import routes from './routes/index';
 import mail from './routes/mail';
+import user from './routes/user';
 
 let app = express();
+
+require("./models/user");
+require("./config/passport");
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -18,6 +22,7 @@ app.set('view engine', 'ejs');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
+app.use(passport.initialize());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -26,7 +31,7 @@ app.use('/bower_components', express.static(path.join(__dirname, 'bower_componen
 app.use('/api', express.static(path.join(__dirname, 'api')));
 app.use('/', routes);
 app.use('/mail', mail);
-
+app.use('/user', user);
 
 // redirect 404 to home for the sake of AngularJS client-side routes
 app.get('/*', function(req, res, next) {

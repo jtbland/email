@@ -17,6 +17,10 @@ threadSchema.virtual('updated_at').get(function() {
     return 0;
 });
 
+threadSchema.virtual('isSpam').get(function() {
+    return this.messages.some((m) => m.isSpam);
+});
+
 threadSchema.virtual('unread').get(function() {
     return this.messages.some((m) => m.unread);
 });
