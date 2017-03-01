@@ -1,3 +1,13 @@
+app.controller 'RegisterController', ($scope, AuthService, $state, $rootScope)->
+  $scope.register = ($event)->
+    $event.preventDefault()
+    AuthService.register($scope.username, $scope.password).then () ->
+      AuthService.logIn($scope.username, $scope.password).then (data) ->
+        $rootScope.username = $scope.username
+        $rootScope.email = "#{$scope.username}@test.com"
+        localStorage.setItem('token', data.token)
+        $state.go('mailbox.inbox')
+
 app.controller 'LoginController', ($scope, AuthService, $state, $rootScope)->
   $scope.login = ($event)->
     $event.preventDefault()

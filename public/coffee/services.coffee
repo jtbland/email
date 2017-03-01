@@ -1,4 +1,6 @@
 app.factory 'AuthService', ($http) ->
+  register: (username, password) ->
+    return $http.post('/user/register', {email:"#{username}@test.com", username: username, password: password})
   logIn: (username, password) ->
     return $http.post('/user/login/local', {username: username, password: password}).then (resp) ->
       $http.defaults.headers.common.Authorization = "Bearer #{resp.data.token}";

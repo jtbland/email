@@ -1,4 +1,18 @@
 (function() {
+  app.controller('RegisterController', function($scope, AuthService, $state, $rootScope) {
+    return $scope.register = function($event) {
+      $event.preventDefault();
+      return AuthService.register($scope.username, $scope.password).then(function() {
+        return AuthService.logIn($scope.username, $scope.password).then(function(data) {
+          $rootScope.username = $scope.username;
+          $rootScope.email = $scope.username + "@test.com";
+          localStorage.setItem('token', data.token);
+          return $state.go('mailbox.inbox');
+        });
+      });
+    };
+  });
+
   app.controller('LoginController', function($scope, AuthService, $state, $rootScope) {
     return $scope.login = function($event) {
       $event.preventDefault();

@@ -41,6 +41,11 @@
       url: 'thread/:id'
     });
     $stateProvider.state({
+      name: 'register',
+      templateUrl: '/partials/register.html',
+      url: '/register'
+    });
+    $stateProvider.state({
       name: 'login',
       templateUrl: '/partials/login.html',
       url: '/login'

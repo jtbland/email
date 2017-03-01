@@ -9,7 +9,7 @@ threadSchema.virtual('updated_at').get(function () {
     if (this.messages.length) {
         return this.messages[0].created_at;
     }
-    return 0;
+    return { getTime: function () { return 0; } };
 });
 threadSchema.virtual('isSpam').get(function () {
     return this.messages.some(function (m) { return m.isSpam; });

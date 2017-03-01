@@ -30,6 +30,10 @@ app.config ($stateProvider, $urlRouterProvider, $locationProvider)->
     templateUrl:'/partials/thread.html',
     url: 'thread/:id'
   $stateProvider.state
+    name: 'register',
+    templateUrl:'/partials/register.html',
+    url: '/register'
+  $stateProvider.state
     name: 'login',
     templateUrl:'/partials/login.html',
     url: '/login'

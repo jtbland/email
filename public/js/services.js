@@ -1,6 +1,13 @@
 (function() {
   app.factory('AuthService', function($http) {
     return {
+      register: function(username, password) {
+        return $http.post('/user/register', {
+          email: username + "@test.com",
+          username: username,
+          password: password
+        });
+      },
       logIn: function(username, password) {
         return $http.post('/user/login/local', {
           username: username,
